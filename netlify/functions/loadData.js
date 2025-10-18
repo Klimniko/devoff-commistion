@@ -1,14 +1,12 @@
-import { getStore } from "@netlify/blobs";
+import { getBlob } from "@netlify/blobs";
 
 export async function handler() {
   try {
-    const store = getStore({
-      name: "calculations",
+    const blob = await getBlob({
+      key: "data",
       environment: process.env.NETLIFY_BLOBS_ENV || "main",
-      createIfMissing: true,
     });
 
-    const blob = await store.get("data");
     if (!blob) return { statusCode: 200, body: "[]" };
 
     const json = await blob.json();
