@@ -3,6 +3,10 @@
   publish = "build"
   functions = "netlify/functions"
 
+  [build.environment]
+  NODE_VERSION = "20"
+  NETLIFY_BLOBS_ENV = "main"
+
 [functions]
   node_bundler = "esbuild"
 
