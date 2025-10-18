@@ -1,13 +1,12 @@
-import { setBlob } from "@netlify/blobs";
+import * as blobs from "@netlify/blobs";
 
 export async function handler(event) {
   try {
     const body = JSON.parse(event.body || "[]");
 
-    // Save JSON string to the blob store
-    await setBlob({
+    await blobs.set({
       key: "data",
-      body: JSON.stringify(body),
+      value: JSON.stringify(body),
       environment: process.env.NETLIFY_BLOBS_ENV || "main",
     });
 
@@ -16,6 +15,9 @@ export async function handler(event) {
       body: JSON.stringify({ success: true }),
     };
   } catch (error) {
-    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
   }
 }
